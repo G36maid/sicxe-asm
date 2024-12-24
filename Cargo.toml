@@ -1,0 +1,9 @@
+[package]
+name = "sicxe-asm"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.23", features = ["cargo"] }
+sicxe = "0.1.0"
+sicxe-cli = "0.1.0"
