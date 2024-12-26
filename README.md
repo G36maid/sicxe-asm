@@ -11,6 +11,10 @@ A fully-featured SIC/XE assembler implementation.
 - **Symbol-Defining Directives**: Implements `EQU` for symbol definition.
 - **Syntax & Semantic Checking**: Provides basic syntax validation and semantic error detection.
 
+## Parallel Assemble (Experimental)
+
+Introducing the experimental `merge_texts_parallel` feature, which leverages multi-threading using the Rayon library to optimize performance during the merging and processing of text records. This feature is designed to improve efficiency for large datasets while ensuring correctness.
+
 ## Usage
 
 The assembler is built using Rust. Ensure you have the latest stable version installed before proceeding.
@@ -82,15 +86,15 @@ Frames represent the core processing units in the assembler. They come in three 
 
 The optimizer refines object code layout, ensuring minimal size without compromising functionality.
 
-Here's the updated version, including the reference to the `sicxe` crate's GitHub repository:
+### Parallel Merge
+
+The `merge_texts_parallel` function leverages Rayon for concurrent processing of text records. This improves performance, especially for large programs, by distributing the workload across multiple threads. The feature remains experimental and should be tested in diverse scenarios to ensure robustness.
 
 ## Crate Dependency
 
 This project utilizes the [sicxe crate](https://crates.io/crates/sicxe), which provides the core functionality for SIC/XE instruction parsing and processing. The source code for the `sicxe` crate is available on GitHub at [JacobLinCool/sicxe](https://github.com/JacobLinCool/sicxe). The `sicxe` crate is distributed under the AGPL-3.0 License.
 
-Here's how you can structure and write the "Copyright Claim" section for your project report:
-
-### Copyright Claim
+## Copyright Claim
 
 The implementation of the SIC/XE assembler in this project includes contributions from both open-source and original development. Specifically:
 
@@ -98,6 +102,6 @@ The implementation of the SIC/XE assembler in this project includes contribution
 
 - **Open-Source Contributions**: The assembler leverages the open-source `sicxe` crate, developed by [JacobLinCool](https://github.com/JacobLinCool/sicxe). This crate provides foundational functionalities, including parsing SIC/XE instructions and directives, which greatly accelerated the development process.
 
-### Acknowledgment
+## Acknowledgment
 
 While I developed the optimization component independently, the use of the `sicxe` crate for core assembler functionalities is essential to the overall implementation. This project is built upon Jacob Lin's work and distributed under the same [AGPL-3.0 License](https://www.gnu.org/licenses/agpl-3.0.en.html), in compliance with the open-source license terms.
