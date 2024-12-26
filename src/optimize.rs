@@ -1,7 +1,6 @@
 use std::collections::VecDeque;
 use sicxe::frame::record::ObjectRecord;
 
-
 pub fn optimize(records: Vec<ObjectRecord>) -> String {
     let mut optimized = String::new();
 
@@ -39,13 +38,10 @@ fn merge_defines(optimized: &mut String, records: &[ObjectRecord]) {
         })
         .collect::<Vec<_>>();
     while !defines.is_empty() {
-        let mut line = "D".to_string();
-        for _ in 0..6 {
-            if let Some(define) = defines.pop() {
-                line.push_str(&format!("{: <6}{:06X}", define.name, define.value));
-            }
-        }
-        optimized.push_str(&format!("{}\n", line));
+        let line: String = defines.drain(..6.min(defines.len()))
+            .map(|define| format!("{: <6}{:06X}", define.name, define.value))
+            .collect();
+        optimized.push_str(&format!("D{}\n", line));
     }
 }
 
@@ -58,15 +54,13 @@ fn merge_refers(optimized: &mut String, records: &[ObjectRecord]) {
         })
         .collect::<Vec<_>>();
     while !refers.is_empty() {
-        let mut line = "R".to_string();
-        for _ in 0..12 {
-            if let Some(refer) = refers.pop() {
-                line.push_str(&format!("{: <6}", refer.name));
-            }
-        }
-        optimized.push_str(&format!("{}\n", line));
+        let line: String = refers.drain(..12.min(refers.len()))
+            .map(|refer| format!("{: <6}", refer.name))
+            .collect();
+        optimized.push_str(&format!("R{}\n", line));
     }
 }
+
 fn merge_texts(optimized: &mut String, records: &[ObjectRecord]) {
     let texts = records
         .iter()
@@ -99,7 +93,7 @@ fn merge_texts(optimized: &mut String, records: &[ObjectRecord]) {
 
                 #[cfg(debug_assertions)]
                 if current_line.len() > 60 {
-                    panic!("Line length exceeds 60 bytes, max = {max}, wrote = {wrote}");
+                    panic!("Line length exceeds 60 bytes");
                 }
 
                 if current_line.len() == 60 {

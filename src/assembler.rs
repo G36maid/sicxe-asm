@@ -7,7 +7,6 @@ use sicxe::frameformer::translate::translate_to_record;
 
 use crate::optimize::optimize;
 
-
 pub fn assemble(source: &str) -> Result<String, String> {
     let frames = source
         .lines()
@@ -23,10 +22,12 @@ pub fn assemble(source: &str) -> Result<String, String> {
         .map(rearrange_blocks)
         .map(dump_literals)
         .map(resolve_symbols)
-        .collect::<Result<Vec<_>, _>>()?
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| format!("Error in resolving symbols: {}", e))?
         .into_iter()
         .map(translate_to_record)
-        .collect::<Result<Vec<_>, _>>()?;
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|e| format!("Error in translating to record: {}", e))?;
 
     let code = sections
         .into_iter()
